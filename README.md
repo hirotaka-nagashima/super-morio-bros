@@ -3,7 +3,6 @@ Morio is Japanese living in a forest.
 
 ## What I can
 ### 1. To let you play
-
 <p align="center">
   <strong>WARNING: GRAPHIC IMAGES</strong>
 </p>
@@ -27,3 +26,6 @@ Morio is Japanese living in a forest.
 ### CC BY-ND 4.0
 - [Free Pixel Art Forest by edermunizz](https://edermunizz.itch.io/free-pixel-art-forest)
   - `./src/resources/background_*.png`
+  
+### MIT
+- Others

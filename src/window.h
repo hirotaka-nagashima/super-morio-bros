@@ -10,9 +10,9 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include <SDL_image.h>
+#include "status.h"
 
 struct Point;
-enum Status;
 
 class Window {
 public:
@@ -21,6 +21,7 @@ public:
         kHeight(height),
         kTitle(title),
         kIconUrl(icon_url),
+        window_(NULL),
         video_surface_(NULL) {}
   Window(int width, int height, std::string title)
       : Window(width, height, title, "") {}
@@ -55,6 +56,7 @@ private:
   const int kHeight;
   const std::string kTitle;
   const std::string kIconUrl;
+  SDL_Window* window_;
   SDL_Surface* video_surface_;
 };
 

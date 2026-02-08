@@ -13,14 +13,14 @@
 #include "turtle_monster.h"
 #include "item.h"
 
-const char FileHandler::kWorldsUrlBeforeID[] = "resources/world_";
+const char FileHandler::kWorldsUrlBeforeID[] = "src/resources/world_";
 const char FileHandler::kWorldsUrlAfterID[] = ".bmp";
-const char FileHandler::kScoresUrl[] = "resources/scores.dat";
+const char FileHandler::kScoresUrl[] = "src/resources/scores.dat";
 
 Status FileHandler::LoadWorld(int world_id, World** world) const {
   // Open a world file.
   char url[256];
-  sprintf(url, "%s%d%s", kWorldsUrlBeforeID, world_id, kWorldsUrlAfterID);
+  snprintf(url, sizeof(url), "%s%d%s", kWorldsUrlBeforeID, world_id, kWorldsUrlAfterID);
   SDL_Surface* image_world = SDL_LoadBMP(url);
   if (!image_world)
     return kError;

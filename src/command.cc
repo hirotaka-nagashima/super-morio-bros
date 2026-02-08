@@ -7,9 +7,9 @@
 
 void Command::UpdateCommand() {
   // Update command from key inputs.
-  Uint8* key = SDL_GetKeyState(NULL);
-  command_[kLeft]  = key[SDLK_LEFT]  ? command_[kLeft] + 1  : 0;
-  command_[kRight] = key[SDLK_RIGHT] ? command_[kRight] + 1 : 0;
-  command_[kJump]  = key[SDLK_c]     ? command_[kJump] + 1  : 0;
-  command_[kDash]  = key[SDLK_x]     ? command_[kDash] + 1  : 0;
+  const Uint8* key = SDL_GetKeyboardState(NULL);
+  command_[kLeft]  = key[SDL_SCANCODE_LEFT]  ? command_[kLeft] + 1  : 0;
+  command_[kRight] = key[SDL_SCANCODE_RIGHT] ? command_[kRight] + 1 : 0;
+  command_[kJump]  = key[SDL_SCANCODE_C]     ? command_[kJump] + 1  : 0;
+  command_[kDash]  = key[SDL_SCANCODE_X]     ? command_[kDash] + 1  : 0;
 }

@@ -22,25 +22,34 @@ Status Window::Initialize() {
     return kError;
   }
 
-  // This functions must be called before "SDL_SetVideoMode()".
-  if (!kIconUrl.empty())
-    SDL_WM_SetIcon(IMG_Load(kIconUrl.c_str()), NULL);
-  SDL_WM_SetCaption(kTitle.c_str(), kTitle.c_str());
-
-  if (SDL_SetVideoMode(kWidth, kHeight, 16, SDL_HWSURFACE) == NULL) {
+  window_ = SDL_CreateWindow(kTitle.c_str(), SDL_WINDOWPOS_CENTERED,
+                             SDL_WINDOWPOS_CENTERED, kWidth, kHeight,
+                             SDL_WINDOW_SHOWN);
+  if (window_ == NULL) {
     fprintf(stderr, "ERROR: %s\n", SDL_GetError());
     return kError;
   }
-  if (!video_surface_)
-    video_surface_ = SDL_GetVideoSurface();
-
+  if (!kIconUrl.empty()) {
+    SDL_Surface* icon = IMG_Load(kIconUrl.c_str());
+    if (icon) {
+      SDL_SetWindowIcon(window_, icon);
+      SDL_FreeSurface(icon);
+    }
+  }
+  video_surface_ = SDL_GetWindowSurface(window_);
+  if (video_surface_ == NULL) {
+    fprintf(stderr, "ERROR: %s\n", SDL_GetError());
+    return kError;
+  }
   return kSuccess;
 }
 
 void Window::Terminate() {
-  SDL_FreeSurface(video_surface_); video_surface_ = NULL;
-
-  // Terminate services in reverse order.
+  if (window_) {
+    SDL_DestroyWindow(window_);
+    window_ = NULL;
+    video_surface_ = NULL;
+  }
   Mix_CloseAudio();
   TTF_Quit();
   SDL_Quit();
@@ -48,7 +57,9 @@ void Window::Terminate() {
 
 SDL_Surface* Window::LoadOptimizedImage(const char* url) const {
   SDL_Surface* original = IMG_Load(url);
-  SDL_Surface* optimized = SDL_DisplayFormatAlpha(original);
+  if (!original) return NULL;
+  SDL_Surface* optimized =
+      SDL_ConvertSurfaceFormat(original, SDL_PIXELFORMAT_RGBA8888, 0);
   SDL_FreeSurface(original);
   return optimized;
 }
@@ -114,7 +125,7 @@ void Window::DrawStringCenter(const char* text, int dest_y,
 }
 
 void Window::Display() {
-  SDL_Flip(video_surface_);
+  SDL_UpdateWindowSurface(window_);
 }
 
 void Window::PlayBGM(Mix_Music* bgm) {
@@ -170,8 +181,8 @@ Status Window::WaitEnterKey() const {
     static const int kCheckDuration = 50;
     if (Sleep(kCheckDuration) == kClosed)
       return kClosed;
-    Uint8* key = SDL_GetKeyState(NULL);
-    if (key[SDLK_RETURN])
+    const Uint8* key = SDL_GetKeyboardState(NULL);
+    if (key[SDL_SCANCODE_RETURN] || key[SDL_SCANCODE_KP_ENTER])
       break;
   }
   return kSuccess;

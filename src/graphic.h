@@ -15,7 +15,7 @@ class Camera;
 class Graphic {
 public:
   Graphic()
-      : window_(512, 480, "SUPER MORIO BROS.", "resources/icon.png"),
+      : window_(512, 480, "SUPER MORIO BROS.", "src/resources/icon.png"),
         font_(NULL),
         bgm_(NULL),
         se_jump_(NULL),
@@ -28,7 +28,7 @@ public:
         image_title_(NULL),
         image_blood_(NULL),
         image_foreground_(NULL) {
-    memset(image_background_, NULL, sizeof(image_background_));
+    memset(image_background_, 0, sizeof(image_background_));
   }
 
   Status Initialize();

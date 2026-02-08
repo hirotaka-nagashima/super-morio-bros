@@ -16,19 +16,19 @@ Status Graphic::Initialize() {
 
   // Load fonts.
   static const int kFontSize = 16;
-  font_ = TTF_OpenFont("resources/font.ttf", kFontSize);
+  font_ = TTF_OpenFont("src/resources/font.ttf", kFontSize);
   if (!font_) {
     fprintf(stderr, "ERROR: %s\n", TTF_GetError());
     return kError;
   }
 
   // Load musics.
-  bgm_ = Mix_LoadMUS("resources/bgm.ogg");
-  se_jump_ = Mix_LoadWAV("resources/se_jump.ogg");
-  se_coin_ = Mix_LoadWAV("resources/se_coin.ogg");
-  se_smash_ = Mix_LoadWAV("resources/se_smash.ogg");
-  se_up_ = Mix_LoadWAV("resources/se_up.ogg");
-  se_down_ = Mix_LoadWAV("resources/se_down.ogg");
+  bgm_ = Mix_LoadMUS("src/resources/bgm.ogg");
+  se_jump_ = Mix_LoadWAV("src/resources/se_jump.ogg");
+  se_coin_ = Mix_LoadWAV("src/resources/se_coin.ogg");
+  se_smash_ = Mix_LoadWAV("src/resources/se_smash.ogg");
+  se_up_ = Mix_LoadWAV("src/resources/se_up.ogg");
+  se_down_ = Mix_LoadWAV("src/resources/se_down.ogg");
   if (!bgm_ || !se_jump_ || !se_coin_ || !se_smash_ ||
       !se_up_ || !se_down_) {
     fprintf(stderr, "ERROR: %s\n", Mix_GetError());
@@ -36,13 +36,13 @@ Status Graphic::Initialize() {
   }
 
   // Load images.
-  image_objects_ = window_.LoadOptimizedImage("resources/objects.png");
-  image_infobar_ = window_.LoadOptimizedImage("resources/infobar.png");
-  image_title_ = window_.LoadOptimizedImage("resources/title.png");
-  image_blood_ = window_.LoadOptimizedImage("resources/blood.png");
-  image_foreground_ = window_.LoadOptimizedImage("resources/foreground.png");
-  if (!image_objects_ || !image_background_ || !image_infobar_ ||
-      !image_title_ || !image_blood_ || !image_foreground_) {
+  image_objects_ = window_.LoadOptimizedImage("src/resources/objects.png");
+  image_infobar_ = window_.LoadOptimizedImage("src/resources/infobar.png");
+  image_title_ = window_.LoadOptimizedImage("src/resources/title.png");
+  image_blood_ = window_.LoadOptimizedImage("src/resources/blood.png");
+  image_foreground_ = window_.LoadOptimizedImage("src/resources/foreground.png");
+  if (!image_objects_ || !image_infobar_ || !image_title_ ||
+      !image_blood_ || !image_foreground_) {
     fprintf(stderr, "ERROR: %s\n", IMG_GetError());
     return kError;
   }
@@ -51,7 +51,7 @@ Status Graphic::Initialize() {
   bool error = false;
   for (int i = 0; i < kNumLayersBackground; ++i) {
     char url[256];
-    sprintf(url, "resources/background_%d.png", i);
+    snprintf(url, sizeof(url), "src/resources/background_%d.png", i);
     image_background_[i] = window_.LoadOptimizedImage(url);
     error |= !image_background_[i];
   }
@@ -134,7 +134,7 @@ Status Graphic::DisplayWorldInfo(int world_id, const Info& info) {
   // Draw a world id.
   static const int kMaxNumDigits = 10;
   char world_name[kMaxNumDigits + 1];
-  sprintf(world_name, "%d", world_id + 1);
+  snprintf(world_name, sizeof(world_name), "%d", world_id + 1);
   dest_y = height() / 2 + 5;
   window_.DrawStringCenter(world_name, dest_y, font_);
 
@@ -199,7 +199,7 @@ Status Graphic::DisplayResult(int score, const BestScores& best_scores) {
     // String.
     int best_score = best_scores.best_score(place);
     char line[14];
-    sprintf(line, "%d.%06d", place, best_score);
+    snprintf(line, sizeof(line), "%d.%06d", place, best_score);
     // Destination.
     dest_y = height() / 2 - 30 + 18 * place;
     // Color.
@@ -218,7 +218,7 @@ Status Graphic::DisplayResult(int score, const BestScores& best_scores) {
   } else {
     // String.
     char line[14];
-    sprintf(line, "  %06d", score);
+    snprintf(line, sizeof(line), "  %06d", score);
     dest_y = height() / 2 + 70;
     window_.DrawStringCenter(line, dest_y, font_, kWhite);
   }
@@ -233,13 +233,13 @@ void Graphic::DrawInfoBar(const Info& info) {
 
   static const int kMaxNumDigits = 10;
   char value[kMaxNumDigits + 1];
-  sprintf(value, "%06d", info.score());
+  snprintf(value, sizeof(value), "%06d", info.score());
   window_.DrawString(value, 48, 48, font_);
-  sprintf(value, "%02d", info.num_coins());
+  snprintf(value, sizeof(value), "%02d", info.num_coins());
   window_.DrawString(value, 208, 48, font_);
-  sprintf(value, "%02d", info.num_lives());
+  snprintf(value, sizeof(value), "%02d", info.num_lives());
   window_.DrawString(value, 328, 48, font_);
-  sprintf(value, "%03d", info.remaining_time());
+  snprintf(value, sizeof(value), "%03d", info.remaining_time());
   window_.DrawString(value, 416, 48, font_);
 }
 

@@ -161,6 +161,7 @@ void Player::ActForHittingMovingObject(
       case kPotion:  message_.got_potion = true;                break;
       case kDrug:    message_.got_drug = true;
                      UpdateTransparency(true, kDrugDuration);   break;
+      default:       break;
     }
   }
 }

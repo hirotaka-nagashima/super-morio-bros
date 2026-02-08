@@ -11,7 +11,7 @@ Morio is Japanese living in a forest.
 </p>
 
 ## NOTE:
-- [SDL 1.2](https://www.libsdl.org/download-1.2.php) and [SDL_image 1.2](https://www.libsdl.org/projects/SDL_image/release-1.2.html), [SDL_ttf 1.2](https://www.libsdl.org/projects/SDL_ttf/release-1.2.html), [SDL_mixer 1.2](https://www.libsdl.org/projects/SDL_mixer/release-1.2.html) is required.
+- SDL 2.0 and SDL_image 2.0, SDL_ttf 2.0, SDL_mixer 2.0 is required.
 - `font.ttf` is necessary in `./src/resources`. I recommend **[Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P)** as the font.
 - Following ogg files are necessary in `./src/resources`.
   - `bgm.ogg`

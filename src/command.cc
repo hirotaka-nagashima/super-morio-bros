@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2013 @hirodotexe. All rights reserved.
+// Copyright (c) 2013 Hirotaka Nagashima. All rights reserved.
 //-----------------------------------------------------------------------------
 
 #include "command.h"
